@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>窑炉告警流转</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header>
+  <div class="brand">窑炉告警分组 · 抑制 · 静默</div>
+  <div class="controls">
+    <label>风暴
+      <select id="storm">
+        {{range .}}<option value="{{.Name}}" title="{{.Desc}}">{{.Name}}{{if not .OK}} (核对未通过){{end}}</option>{{end}}
+      </select>
+    </label>
+    <label class="scrub">时间
+      <input id="scrub" type="range" min="0" max="100" value="100">
+      <output id="clock">—</output>
+    </label>
+    <button id="play">播放</button>
+  </div>
+  <div id="summary" class="summary"></div>
+</header>
+
+<div id="banner" class="banner" hidden></div>
+
+<main>
+  <section class="pane tree-pane">
+    <h2>路由树 <span class="hint">每个节点下列出此刻匹配到的告警与分组</span></h2>
+    <div id="tree" class="tree"></div>
+  </section>
+
+  <section class="pane">
+    <h2>当前分组 <span class="hint">组内标签、发往渠道、上次发送</span></h2>
+    <div id="groups" class="groups"></div>
+  </section>
+
+  <section class="pane">
+    <h2>被抑制 / 被静默 <span class="hint">以及原因</span></h2>
+    <div id="silences" class="silences"></div>
+    <div id="suppressed" class="suppressed"></div>
+  </section>
+
+  <section class="pane">
+    <h2>通知记录 <span class="hint">每条只带与上一次相比的变化</span></h2>
+    <div id="notifications" class="notifications"></div>
+  </section>
+
+  <section class="pane wide">
+    <h2>流水 <span class="hint">触发、解除、静默、送达</span></h2>
+    <div id="events" class="events"></div>
+  </section>
+</main>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
